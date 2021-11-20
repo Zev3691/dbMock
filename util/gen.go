@@ -1,21 +1,40 @@
 package util
 
-import "time"
+import (
+	"math/rand"
+	"time"
+)
 
-// GenInt生成指定长度的随机数字
-func GenRandInt(count int) int {
+var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	return 0
+func init() {
+	regiest()
 }
 
-// GenStr生成指定长度的随机字符串
-func GenRandStr(count int) string {
-
-	return ""
+// genRandStr 生成指定长度的随机字符串
+func genRandStr(length int) string {
+	if length == 0 {
+		length = 10
+	}
+	return stringWithCharset(length, retCharSet())
 }
 
-// GenRandTime生成随机的时间
-func GenRandTime() time.Time {
+// genRandTime 生成随机的时间
+func genRandTime() time.Time {
+	randomTime := rand.Int63n(time.Now().Unix()-94608000) + 94608000
+	randomNow := time.Unix(randomTime, 0)
+	return randomNow
+}
 
-	return time.Now()
+func stringWithCharset(length int, charset string) string {
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	return string(b)
+}
+
+func retCharSet() string {
+	return "abcdefghijklmnopqrstuvwxyz" +
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 }

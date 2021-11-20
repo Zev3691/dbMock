@@ -1,0 +1,13 @@
+{
+    "host": "192.168.2.122",
+    "port": "3306",
+    "dbname": "pbx",
+    "table_name": "pbx.clip_list",
+    "cols":{
+        "extension": "varchar",
+        "external": "varchar",
+        "trunk": "varchar",
+        "update_time": "int"
+    },
+    "max_count": 10000
+}
