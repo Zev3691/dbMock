@@ -7,20 +7,20 @@ var genData map[string]func(size int) string
 func regiest() {
 	genData = make(map[string]func(size int) string)
 	genData["varchar"] = func(size int) string {
-		return genRandStr(size)
+		return fmt.Sprintf("'%s'", genRandStr(size))
 	}
 	genData["char"] = func(size int) string {
-		return genRandStr(size)
+		return fmt.Sprintf("'%s'", genRandStr(size))
 	}
 	genData["int"] = func(size int) string {
 		if size >= 13 {
-			return fmt.Sprintf("%s", genRandTime().UnixNano())
+			return fmt.Sprintf("%d", genRandTime().UnixNano())
 		} else {
-			return fmt.Sprintf("%.4d", genRandTime().UnixNano())
+			return fmt.Sprintf("%d", genRandTime().Unix())
 		}
 	}
 	genData["tinyint"] = func(size int) string {
-		return fmt.Sprintf("%s", seededRand.Intn(size))
+		return fmt.Sprintf("%d", seededRand.Intn(size))
 	}
 }
 

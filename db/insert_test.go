@@ -19,12 +19,19 @@ func TestParseSQL(t *testing.T) {
 		// {"round 3"},
 		// {"round 4"},
 	}
-	scan := util.FileRead("/home/whh/GolandProjects/dbMock/mock.json")
+	scan := util.FileRead("C:\\Users\\99424\\project\\dbMock\\mock.json")
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			parseSQLForTest(scan)
 			n := rand.New(rand.NewSource(time.Now().UnixNano())).Intn(2)
 			fmt.Println(n)
 		})
+	}
+}
+
+func BenchmarkParseSQL(b *testing.B) {
+	scan := util.FileRead("C:\\Users\\99424\\project\\dbMock\\mock.json")
+	for i := 0; i < b.N; i++ {
+		parseSQLForTest(scan)
 	}
 }

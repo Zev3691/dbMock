@@ -9,12 +9,18 @@ import (
 )
 
 type Scan struct {
-	TableName string            `json:"table_name,omitempty"`
-	Cols      map[string]string `json:"cols,omitempty"`
-	MaxCount  int               `json:"max_count,omitempty"`
-	Host      string            `json:"host,omitempty"`
-	Port      string            `json:"port,omitempty"`
-	Dbname    string            `json:"dbname,omitempty"`
+	TableName string            `json:"table_name"`
+	Cols      map[string]string `json:"cols"`
+	MaxCount  int               `json:"max_count"`
+	Host      string            `json:"host"`
+	Port      string            `json:"port"`
+	Dbname    string            `json:"dbname"`
+	Advanced  advanced          `json:"advanced"`
+}
+
+type advanced struct {
+	OnceForGo     int `json:"once_for_go"`
+	OnceForInsert int `json:"once_for_insert"`
 }
 
 type Read interface {
@@ -47,6 +53,12 @@ func (j *JSON) Unmarshal() *Scan {
 	j.readFile()
 	var scan Scan
 	json.Unmarshal(j.body, &scan)
+	if scan.Advanced.OnceForInsert == 0 {
+		scan.Advanced.OnceForInsert = 50
+	}
+	if scan.Advanced.OnceForGo == 0 {
+		scan.Advanced.OnceForGo = 100
+	}
 	return &scan
 }
 

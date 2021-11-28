@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -29,7 +30,9 @@ func genRandTime() time.Time {
 func stringWithCharset(length int, charset string) string {
 	b := make([]byte, length)
 	for i := range b {
-		b[i] = charset[seededRand.Intn(len(charset))]
+		l := len(charset)
+		fmt.Println(l)
+		b[i] = charset[seededRand.Intn(l)]
 	}
 	return string(b)
 }
