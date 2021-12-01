@@ -18,6 +18,10 @@ type Scan struct {
 	Advanced  advanced          `json:"advanced"`
 }
 
+// 看到这里的同学可以在mock.json中的增加相关结构,
+// once_for_go 默认100
+// once_for_insert 默认50
+// 需要注意数据库的性能是否匹配下面的配置
 type advanced struct {
 	OnceForGo     int `json:"once_for_go"`
 	OnceForInsert int `json:"once_for_insert"`
@@ -50,9 +54,9 @@ func (j *JSON) Marshal() {
 }
 
 func (j *JSON) Unmarshal() *Scan {
-	j.readFile()
+	_ = j.readFile()
 	var scan Scan
-	json.Unmarshal(j.body, &scan)
+	_ = json.Unmarshal(j.body, &scan)
 	if scan.Advanced.OnceForInsert == 0 {
 		scan.Advanced.OnceForInsert = 50
 	}
