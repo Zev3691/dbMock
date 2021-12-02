@@ -57,7 +57,6 @@ func do() {
 				fmt.Println(fmt.Sprintf("插入失败，当前共插入 %d 条, 错误信息: %v", count, err))
 				return
 			}
-			//time.Sleep(time.Second)
 			<-ch
 		}(i)
 	}

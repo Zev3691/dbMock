@@ -1,12 +1,12 @@
 package util
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
 
 var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
+var charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 func init() {
 	regiest()
@@ -17,7 +17,7 @@ func genRandStr(length int) string {
 	if length == 0 {
 		length = 10
 	}
-	return stringWithCharset(length, retCharSet())
+	return stringWithCharset(length)
 }
 
 // genRandTime 生成随机的时间
@@ -30,17 +30,11 @@ func genRandTime() time.Time {
 	return randomNow
 }
 
-func stringWithCharset(length int, charset string) string {
+func stringWithCharset(length int) string {
 	b := make([]byte, length)
 	for i := range b {
-		l := len(charset)
-		fmt.Println(l)
-		b[i] = charset[seededRand.Intn(l)]
+		l := len(charSet)
+		b[i] = charSet[seededRand.Intn(l)]
 	}
 	return string(b)
-}
-
-func retCharSet() string {
-	return "abcdefghijklmnopqrstuvwxyz" +
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 }
