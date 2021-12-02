@@ -5,10 +5,12 @@ import (
 	"time"
 )
 
-var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
-var charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+var seededRand *rand.Rand
+var charSet string
 
 func init() {
+	seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
+	charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	regiest()
 }
 

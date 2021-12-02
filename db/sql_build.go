@@ -16,10 +16,10 @@ func parseSQL(scan *util.Scan) string {
 	}
 	col = strings.TrimSuffix(col, ",") + ")"
 	var valStr []string
-	for i := 0; i <= scan.Advanced.OnceForInsert; i++ {
+	for i := 0; i < scan.Advanced.OnceForInsert; i++ {
 		val := "("
 		for _, v := range vals {
-			val += util.GetData(v)+","
+			val += util.GetData(v) + ","
 		}
 		val = strings.TrimSuffix(val, ",") + ")"
 		valStr = append(valStr, val)
@@ -41,7 +41,7 @@ func parseSQLForTest(scan *util.Scan) string {
 	for i := 0; i <= scan.Advanced.OnceForInsert; i++ {
 		val := "("
 		for _, v := range vals {
-			val += util.GetData(v)+","
+			val += util.GetData(v) + ","
 		}
 		val = strings.TrimSuffix(val, ",") + ")"
 		valStr = append(valStr, val)

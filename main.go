@@ -43,13 +43,24 @@ func do() {
 		return
 	}
 
+	count := new(util.Counter)
 	var wg sync.WaitGroup
 	ch := make(chan struct{}, info.Advanced.OnceForGo)
 	for i := 0; i <= info.MaxCount/info.Advanced.OnceForInsert; i++ {
+		if count.Count() >= uint64(info.MaxCount) {
+			break
+		}
 		ch <- struct{}{}
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
+			defer func() {
+				<-ch
+			}()
+			if count.Count() >= uint64(info.MaxCount) {
+				return
+			}
+			count.Incr(uint64(info.Advanced.OnceForInsert))
 			err := db.Insert()
 			if err != nil {
 				var count int64
@@ -57,7 +68,6 @@ func do() {
 				fmt.Println(fmt.Sprintf("插入失败，当前共插入 %d 条, 错误信息: %v", count, err))
 				return
 			}
-			<-ch
 		}(i)
 	}
 	wg.Wait()
